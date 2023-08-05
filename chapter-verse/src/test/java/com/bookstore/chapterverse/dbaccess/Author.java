@@ -1,0 +1,65 @@
+package com.bookstore.chapterverse.dbaccess;
+
+public class Author {
+private int authorID;
+private String authorName;
+private String authorEmail;
+private String authorPwd;
+private String authorPhone;
+private String authorProfile;
+private String Description;
+public Author() {}
+public Author(int authorID, String authorName, String authorEmail, String authorPwd, String authorPhone,
+		String authorProfile,String Description) {
+	super();
+	this.authorID = authorID;
+	this.authorName = authorName;
+	this.authorEmail = authorEmail;
+	this.authorPwd = authorPwd;
+	this.authorPhone = authorPhone;
+	this.authorProfile = authorProfile;
+	this.Description = Description;
+}
+public String getDescription() {
+	return Description;
+}
+public void setDescription(String description) {
+	Description = description;
+}
+public int getAuthorID() {
+	return authorID;
+}
+public void setAuthorID(int authorID) {
+	this.authorID = authorID;
+}
+public String getAuthorName() {
+	return authorName;
+}
+public void setAuthorName(String authorName) {
+	this.authorName = authorName;
+}
+public String getAuthorEmail() {
+	return authorEmail;
+}
+public void setAuthorEmail(String authorEmail) {
+	this.authorEmail = authorEmail;
+}
+public String getAuthorPwd() {
+	return authorPwd;
+}
+public void setAuthorPwd(String authorPwd) {
+	this.authorPwd = authorPwd;
+}
+public String getAuthorPhone() {
+	return authorPhone;
+}
+public void setAuthorPhone(String authorPhone) {
+	this.authorPhone = authorPhone;
+}
+public String getAuthorProfile() {
+	return authorProfile;
+}
+public void setAuthorProfile(String authorProfile) {
+	this.authorProfile = authorProfile;
+}
+}
