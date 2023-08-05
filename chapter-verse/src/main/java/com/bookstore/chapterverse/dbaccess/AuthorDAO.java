@@ -20,7 +20,7 @@ public class AuthorDAO {
 	            Author uBean = new Author();
 	            uBean.setAuthorID(rs.getInt("authorID"));
 	            uBean.setAuthorName(rs.getString("authorName"));
-	            uBean.setAuthorEmail(rs.getString("age")); // Note: Fix column name "age" to the correct one.
+	          // Note: Fix column name "age" to the correct one.
 	            uBean.setAuthorPhone(rs.getString("authorPhone"));
 	            authorList.add(uBean);
 	        }
