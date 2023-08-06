@@ -23,6 +23,9 @@ public class AuthorDAO {
 	            Author uBean = new Author();
 	            uBean.setAuthorID(rs.getInt("authorID"));
 	            uBean.setAuthorName(rs.getString("authorName"));
+	            uBean.setDescription(rs.getString(rs.getString("authorDescription")));
+	            uBean.setAuthorProfile(rs.getString("profilePic"));
+	            uBean.setAuthorPwd(rs.getString("authorPassword"));
 	          // Note: Fix column name "age" to the correct one.
 	            uBean.setAuthorPhone(rs.getString("authorPhone"));
 	            authorList.add(uBean);
@@ -121,6 +124,8 @@ public class AuthorDAO {
 				System.out.print("login success");
 				author = new Author();
 				author.setAuthorName(rs.getString("authorName"));
+				author.setAuthorPwd(rs.getString("authorPassword"));
+				author.setDescription(rs.getString("authorDescription"));
 				author.setAuthorID(rs.getInt("authorID"));	
 				author.setAuthorEmail(rs.getString("authorEmail"));	
 				author.setAuthorPhone(rs.getString("authorPhone"));	
