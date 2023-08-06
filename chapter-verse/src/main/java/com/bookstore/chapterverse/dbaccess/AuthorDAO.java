@@ -76,41 +76,7 @@ public class AuthorDAO {
 		return nrow;
 	}
 
-	/*
-	 * public int deleteUser(int authorID) throws SQLException,
-	 * ClassNotFoundException { Connection conn = null; int nrow = 0; try { conn =
-	 * DBConnection.getConnection();
-	 * 
-	 * String deleteFavouritesSQL =
-	 * "DELETE FROM Favourites WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)"
-	 * ; PreparedStatement deleteFavouritesStmt =
-	 * conn.prepareStatement(deleteFavouritesSQL); deleteFavouritesStmt.setInt(1,
-	 * authorID); int deletedFavourites = deleteFavouritesStmt.executeUpdate();
-	 * System.out.println("Deleted " + deletedFavourites +
-	 * " rows from Favourites for authorID: " + authorID);
-	 * 
-	 * // Step 2: Delete from Cart table String deleteCartSQL =
-	 * "DELETE FROM cart WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
-	 * PreparedStatement deleteCartStmt = conn.prepareStatement(deleteCartSQL);
-	 * deleteCartStmt.setInt(1, authorID); int deletedCart =
-	 * deleteCartStmt.executeUpdate(); System.out.println("Deleted " + deletedCart +
-	 * " rows from Cart for authorID: " + authorID);
-	 * 
-	 * 
-	 * String deleteBooksSQL = "DELETE FROM books WHERE authorID = ?";
-	 * PreparedStatement deleteBooksStmt = conn.prepareStatement(deleteBooksSQL);
-	 * deleteBooksStmt.setInt(1, authorID); int deletedBooks =
-	 * deleteBooksStmt.executeUpdate(); System.out.println("Deleted " + deletedBooks
-	 * + " books of authorID: " + authorID);
-	 * 
-	 * // Step 2: Delete the author String deleteAuthorSQL =
-	 * "DELETE FROM author WHERE authorID = ?"; PreparedStatement deleteAuthorStmt =
-	 * conn.prepareStatement(deleteAuthorSQL); deleteAuthorStmt.setInt(1, authorID);
-	 * nrow = deleteAuthorStmt.executeUpdate();
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); } finally { if (conn != null) {
-	 * conn.close(); } } return nrow; }
-	 */
+
 	public int deleteUser(int authorID) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		int nrow = 0;
@@ -135,6 +101,18 @@ public class AuthorDAO {
 	        deletePurchaseStmt.setInt(1, authorID);
 	        int deletedPurchase = deletePurchaseStmt.executeUpdate();
 	        System.out.println("Deleted " + deletedPurchase + " rows from Purchase for authorID: " + authorID);
+
+	        String deleteReviewSQL = "DELETE FROM book_review WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	        PreparedStatement deleteReviewStmt = conn.prepareStatement(deleteReviewSQL);
+	        deleteReviewStmt.setInt(1, authorID);
+	        int deletedReview = deleteReviewStmt.executeUpdate();
+	        System.out.println("Deleted " + deletedReview + " rows from Purchase for authorID: " + authorID);
+	        
+	        String deletePromotionSQL = "DELETE FROM promotion WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	        PreparedStatement deletePromotionStmt = conn.prepareStatement(deletePromotionSQL);
+	        deletePromotionStmt.setInt(1, authorID);
+	        int deletedPromotion = deletePromotionStmt.executeUpdate();
+	        System.out.println("Deleted " + deletedPromotion + " rows from Purchase for authorID: " + authorID);
 
 			// Step 1: Delete the author's books
 			String deleteBooksSQL = "DELETE FROM books WHERE authorID = ?";
@@ -196,6 +174,7 @@ public class AuthorDAO {
 		}
 		return author;
 	}
+
 
 	
 	public int modifyAuthor(int author_id, String authorName, String authorEmail, String authorPhone,
