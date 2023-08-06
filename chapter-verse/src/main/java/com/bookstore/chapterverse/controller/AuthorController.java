@@ -80,13 +80,14 @@ public class AuthorController {
 			AuthorDAO db = new AuthorDAO();
 			int id= author.getAuthorID();
 			System.out.println("...Inside auth controller id "+id);
+			int authorID=author.getAuthorID();
 			String authorName=author.getAuthorName();
 			String authorEmail=author.getAuthorEmail();
 			String authorDesc=author.getDescription();
 			String authorPhone=author.getAuthorPhone();
 			String authorpwd=author.getAuthorPwd();
 			String authorProfile=author.getAuthorProfile();
-			rec=db.modifyAuthor(uid,authorName, authorEmail, authorpwd, authorPhone, authorProfile,authorDesc);
+			rec=db.modifyAuthor(authorID,authorName, authorEmail,authorPhone, authorDesc);
 			System.out.println("done modifying author");
 		}catch(Exception e) {}
 		return rec;
@@ -112,6 +113,7 @@ public class AuthorController {
 		Author author = new Author();
 		int delete=0;
 		try {
+			System.out.println("in controller for delete");
 			AuthorDAO db = new AuthorDAO();
 			 delete = db.deleteUser(uid);
 		}
