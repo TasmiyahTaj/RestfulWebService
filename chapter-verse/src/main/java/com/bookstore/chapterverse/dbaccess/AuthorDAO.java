@@ -4,14 +4,12 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 
-<<<<<<< HEAD
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
->>>>>>> 81b3e917edb343743de0d1295a56d03af68679bb
+
 public class AuthorDAO {
 	public ArrayList<Author> listAllAuthor() throws SQLException {
 	    ArrayList<Author> authorList = new ArrayList<>();
@@ -124,7 +122,7 @@ public class AuthorDAO {
 				author = new Author();
 				author.setAuthorName(rs.getString("authorName"));
 				author.setAuthorID(rs.getInt("authorID"));	
-				author.setAuthorEmail(authorEmail);	
+				author.setAuthorEmail(rs.getString("authorEmail"));	
 				author.setAuthorPhone(rs.getString("authorPhone"));	
 				conn.close();
 			}
@@ -141,7 +139,7 @@ public class AuthorDAO {
 	}
 	
 	
-	public int modifyAuthor(String authorName, String authorEmail, String authorPwd, String authorPhone,
+	public int modifyAuthor(int author_id,String authorName, String authorEmail, String authorPwd, String authorPhone,
 			String authorProfile, String description) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		int nrow = 0;
@@ -160,7 +158,7 @@ public class AuthorDAO {
 			profilePicBlob.setBytes(1, profilePicBytes);
 			pstmt.setBlob(5, profilePicBlob);
 			pstmt.setString(6, description);
-			pstmt.setInt(7, 1);
+			pstmt.setInt(7, author_id);
 			nrow = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

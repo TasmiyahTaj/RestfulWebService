@@ -23,6 +23,7 @@ public Author(int authorID, String authorName, String authorEmail, String author
 	this.authorProfile = authorProfile;
 	this.Description = Description;
 }
+
 public String getDescription() {
 	return Description;
 }
