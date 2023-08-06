@@ -11,6 +11,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.mysql.cj.Session;
+
 public class AuthorDAO {
 	public ArrayList<Author> listAllAuthor() throws SQLException {
 
@@ -161,6 +163,14 @@ public class AuthorDAO {
 				author.setDescription(rs.getString("authorDescription"));
 				author.setAuthorPwd(rs.getString("authorPassword"));
 
+
+				Blob image = rs.getBlob("profilePic");
+			byte[] imageBytes = image.getBytes(1, (int) image.length());
+			String imageData = Base64.getEncoder().encodeToString(imageBytes);
+			String imageURL = "data:image/jpeg;base64," + imageData;
+			
+			author.setAuthorProfile(imageURL);
+
 				conn.close();
 			}
 
@@ -191,6 +201,7 @@ public class AuthorDAO {
 			pstmt.setString(4, description);
 			pstmt.setInt(5, author_id);
 			nrow = pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
