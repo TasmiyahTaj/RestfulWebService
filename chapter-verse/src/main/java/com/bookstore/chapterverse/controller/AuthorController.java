@@ -113,6 +113,7 @@ public class AuthorController {
 		Author author = new Author();
 		int delete=0;
 		try {
+			System.out.println("in controller for delete");
 			AuthorDAO db = new AuthorDAO();
 			 delete = db.deleteUser(uid);
 		}

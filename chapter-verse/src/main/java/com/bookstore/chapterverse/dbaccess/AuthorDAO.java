@@ -76,11 +76,65 @@ public class AuthorDAO {
 		return nrow;
 	}
 
+	/*
+	 * public int deleteUser(int authorID) throws SQLException,
+	 * ClassNotFoundException { Connection conn = null; int nrow = 0; try { conn =
+	 * DBConnection.getConnection();
+	 * 
+	 * String deleteFavouritesSQL =
+	 * "DELETE FROM Favourites WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)"
+	 * ; PreparedStatement deleteFavouritesStmt =
+	 * conn.prepareStatement(deleteFavouritesSQL); deleteFavouritesStmt.setInt(1,
+	 * authorID); int deletedFavourites = deleteFavouritesStmt.executeUpdate();
+	 * System.out.println("Deleted " + deletedFavourites +
+	 * " rows from Favourites for authorID: " + authorID);
+	 * 
+	 * // Step 2: Delete from Cart table String deleteCartSQL =
+	 * "DELETE FROM cart WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	 * PreparedStatement deleteCartStmt = conn.prepareStatement(deleteCartSQL);
+	 * deleteCartStmt.setInt(1, authorID); int deletedCart =
+	 * deleteCartStmt.executeUpdate(); System.out.println("Deleted " + deletedCart +
+	 * " rows from Cart for authorID: " + authorID);
+	 * 
+	 * 
+	 * String deleteBooksSQL = "DELETE FROM books WHERE authorID = ?";
+	 * PreparedStatement deleteBooksStmt = conn.prepareStatement(deleteBooksSQL);
+	 * deleteBooksStmt.setInt(1, authorID); int deletedBooks =
+	 * deleteBooksStmt.executeUpdate(); System.out.println("Deleted " + deletedBooks
+	 * + " books of authorID: " + authorID);
+	 * 
+	 * // Step 2: Delete the author String deleteAuthorSQL =
+	 * "DELETE FROM author WHERE authorID = ?"; PreparedStatement deleteAuthorStmt =
+	 * conn.prepareStatement(deleteAuthorSQL); deleteAuthorStmt.setInt(1, authorID);
+	 * nrow = deleteAuthorStmt.executeUpdate();
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } finally { if (conn != null) {
+	 * conn.close(); } } return nrow; }
+	 */
 	public int deleteUser(int authorID) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		int nrow = 0;
 		try {
+			System.out.print("in delete");
 			conn = DBConnection.getConnection();
+			String deleteFavouritesSQL = "DELETE FROM favourite WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	        PreparedStatement deleteFavouritesStmt = conn.prepareStatement(deleteFavouritesSQL);
+	        deleteFavouritesStmt.setInt(1, authorID);
+	        int deletedFavourites = deleteFavouritesStmt.executeUpdate();
+	        System.out.println("Deleted " + deletedFavourites + " rows from Favourites for authorID: " + authorID);
+
+	        // Step 2: Delete from Cart table
+	        String deleteCartSQL = "DELETE FROM cart WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	        PreparedStatement deleteCartStmt = conn.prepareStatement(deleteCartSQL);
+	        deleteCartStmt.setInt(1, authorID);
+	        int deletedCart = deleteCartStmt.executeUpdate();
+	        System.out.println("Deleted " + deletedCart + " rows from Cart for authorID: " + authorID);
+
+	        String deletePurchaseSQL = "DELETE FROM purchaseitems WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	        PreparedStatement deletePurchaseStmt = conn.prepareStatement(deletePurchaseSQL);
+	        deletePurchaseStmt.setInt(1, authorID);
+	        int deletedPurchase = deletePurchaseStmt.executeUpdate();
+	        System.out.println("Deleted " + deletedPurchase + " rows from Purchase for authorID: " + authorID);
 
 			// Step 1: Delete the author's books
 			String deleteBooksSQL = "DELETE FROM books WHERE authorID = ?";
@@ -104,6 +158,7 @@ public class AuthorDAO {
 		}
 		return nrow;
 	}
+
 
 	public Author loginAuthor(String authorEmail, String authorPwd) throws SQLException, ClassNotFoundException {
 		Author author = null;
@@ -142,24 +197,7 @@ public class AuthorDAO {
 		return author;
 	}
 
-	/*
-	 * public int modifyAuthor(int author_id,String authorName, String authorEmail,
-	 * String authorPwd, String authorPhone, String authorProfile, String
-	 * description) throws SQLException, ClassNotFoundException { Connection conn =
-	 * null; int nrow = 0; try { conn = DBConnection.getConnection(); String sqlStr
-	 * =
-	 * "UPDATE Author SET authorName = ?, authorEmail = ?, authorPassword = ?, authorPhone = ?, profilePic = ?, authorDescription = ? WHERE authorID = ?"
-	 * ; PreparedStatement pstmt = conn.prepareStatement(sqlStr); pstmt.setString(1,
-	 * authorName); pstmt.setString(2, authorEmail); pstmt.setString(3, authorPwd);
-	 * pstmt.setString(4, authorPhone); URL url = new URL(authorProfile);
-	 * InputStream inputStream = url.openStream(); byte[] profilePicBytes =
-	 * inputStream.readAllBytes(); Blob profilePicBlob = conn.createBlob();
-	 * profilePicBlob.setBytes(1, profilePicBytes); pstmt.setBlob(5,
-	 * profilePicBlob); pstmt.setString(6, description); pstmt.setInt(7, author_id);
-	 * nrow = pstmt.executeUpdate(); } catch (Exception e) { e.printStackTrace(); }
-	 * finally { // Make sure to close the connection in the finally block if (conn
-	 * != null) { conn.close(); } } return nrow; }
-	 */
+	
 	public int modifyAuthor(int author_id, String authorName, String authorEmail, String authorPhone,
 			String description) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
