@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 
 public class AuthorDAO {
 	public ArrayList<Author> listAllAuthor() throws SQLException {
-<<<<<<< HEAD
 
-=======
->>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 		ArrayList<Author> authorList = new ArrayList<>();
 		Connection conn = null;
 		try {
@@ -44,10 +41,7 @@ public class AuthorDAO {
 			}
 		}
 		return authorList;
-<<<<<<< HEAD
 
-=======
->>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 	}
 
 	public int insertAuthor(String authorName, String authorEmail, String authorPwd, String authorPhone,
@@ -167,10 +161,7 @@ public class AuthorDAO {
 		return nrow;
 	}
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 	public Author loginAuthor(String authorEmail, String authorPwd) throws SQLException, ClassNotFoundException {
 		Author author = null;
 		Connection conn = null;
@@ -186,15 +177,12 @@ public class AuthorDAO {
 				System.out.print("login success");
 				author = new Author();
 				author.setAuthorName(rs.getString("authorName"));
-<<<<<<< HEAD
 
-=======
->>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 				author.setAuthorPwd(rs.getString("authorPassword"));
 				author.setDescription(rs.getString("authorDescription"));
 				author.setAuthorID(rs.getInt("authorID"));
 				author.setAuthorEmail(rs.getString("authorEmail"));
-<<<<<<< HEAD
+
 				author.setAuthorPhone(rs.getString("authorPhone"));
 				author.setDescription(rs.getString("authorDescription"));
 				author.setAuthorPwd(rs.getString("authorPassword"));
@@ -211,11 +199,11 @@ public class AuthorDAO {
 			
 			author.setAuthorProfile(imageURL);
 				
-=======
+
 				author.setAuthorPhone(rs.getString("authorPhone"));
 				author.setDescription(rs.getString("authorDescription"));
 				author.setAuthorPwd(rs.getString("authorPassword"));
->>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
+
 
 				conn.close();
 			}
@@ -231,7 +219,7 @@ public class AuthorDAO {
 		return author;
 	}
 
-<<<<<<< HEAD
+
 	/*
 	 * public int modifyAuthor(int author_id,String authorName, String authorEmail,
 	 * String authorPwd, String authorPhone, String authorProfile, String
@@ -250,9 +238,7 @@ public class AuthorDAO {
 	 * finally { // Make sure to close the connection in the finally block if (conn
 	 * != null) { conn.close(); } } return nrow; }
 	 */
-=======
-	
->>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
+
 	public int modifyAuthor(int author_id, String authorName, String authorEmail, String authorPhone,
 			String description) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
