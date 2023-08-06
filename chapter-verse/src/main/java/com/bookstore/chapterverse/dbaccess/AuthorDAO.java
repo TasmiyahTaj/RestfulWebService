@@ -5,7 +5,10 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 public class AuthorDAO {
 	public ArrayList<Author> listAllAuthor() throws SQLException {
@@ -50,13 +53,16 @@ public class AuthorDAO {
 			pstmt.setString(2, authorEmail);
 			pstmt.setString(3, authorPwd);
 			pstmt.setString(4, authorPhone);
-			URL url = new URL(authorProfile);
-			InputStream inputStream = url.openStream();
-			byte[] profilePicBytes = inputStream.readAllBytes();
-			Blob profilePicBlob = conn.createBlob();
-			profilePicBlob.setBytes(1, profilePicBytes);
+			if (authorProfile != null) {
+				byte[] profileBytes = authorProfile.getBytes();
+				Blob profileBlob = conn.createBlob();
+				profileBlob.setBytes(1, profileBytes);
+				pstmt.setBlob(5, profileBlob);
+			} else {
+				pstmt.setNull(5, java.sql.Types.BLOB);
+			}
 
-			pstmt.setBlob(5, profilePicBlob);
+		
 
 			pstmt.setString(6, description);
 			nrow = pstmt.executeUpdate();
@@ -99,5 +105,6 @@ public class AuthorDAO {
 		}
 		return nrow;
 	}
+
 
 }
