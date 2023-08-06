@@ -60,12 +60,7 @@ public class AuthorController {
 		Author author1=null;
 		try {
 			AuthorDAO db = new AuthorDAO();
-			/*
-			 * String authorEmail=author.getAuthorEmail(); String
-			 * authorpwd=author.getAuthorPwd();
-			 */	
 			author1=db.loginAuthor(author.getAuthorEmail(), author.getAuthorPwd());
-			System.out.println("done loging user");
 		}catch(Exception e) {}
 		return author1;
 
@@ -79,7 +74,7 @@ public class AuthorController {
 		try {
 			AuthorDAO db = new AuthorDAO();
 			int id= author.getAuthorID();
-			System.out.println("...Inside auth controller id "+id);
+			System.out.println("before going to sql");
 			int authorID=author.getAuthorID();
 			String authorName=author.getAuthorName();
 			String authorEmail=author.getAuthorEmail();
@@ -88,7 +83,8 @@ public class AuthorController {
 			String authorpwd=author.getAuthorPwd();
 			String authorProfile=author.getAuthorProfile();
 			rec=db.modifyAuthor(authorID,authorName, authorEmail,authorPhone, authorDesc);
-			System.out.println("done modifying author");
+			
+			System.out.println("just after sql: "+rec);
 		}catch(Exception e) {}
 		return rec;
 

@@ -11,6 +11,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.mysql.cj.Session;
+
 public class AuthorDAO {
 	public ArrayList<Author> listAllAuthor() throws SQLException {
 
@@ -78,41 +80,7 @@ public class AuthorDAO {
 		return nrow;
 	}
 
-	/*
-	 * public int deleteUser(int authorID) throws SQLException,
-	 * ClassNotFoundException { Connection conn = null; int nrow = 0; try { conn =
-	 * DBConnection.getConnection();
-	 * 
-	 * String deleteFavouritesSQL =
-	 * "DELETE FROM Favourites WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)"
-	 * ; PreparedStatement deleteFavouritesStmt =
-	 * conn.prepareStatement(deleteFavouritesSQL); deleteFavouritesStmt.setInt(1,
-	 * authorID); int deletedFavourites = deleteFavouritesStmt.executeUpdate();
-	 * System.out.println("Deleted " + deletedFavourites +
-	 * " rows from Favourites for authorID: " + authorID);
-	 * 
-	 * // Step 2: Delete from Cart table String deleteCartSQL =
-	 * "DELETE FROM cart WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
-	 * PreparedStatement deleteCartStmt = conn.prepareStatement(deleteCartSQL);
-	 * deleteCartStmt.setInt(1, authorID); int deletedCart =
-	 * deleteCartStmt.executeUpdate(); System.out.println("Deleted " + deletedCart +
-	 * " rows from Cart for authorID: " + authorID);
-	 * 
-	 * 
-	 * String deleteBooksSQL = "DELETE FROM books WHERE authorID = ?";
-	 * PreparedStatement deleteBooksStmt = conn.prepareStatement(deleteBooksSQL);
-	 * deleteBooksStmt.setInt(1, authorID); int deletedBooks =
-	 * deleteBooksStmt.executeUpdate(); System.out.println("Deleted " + deletedBooks
-	 * + " books of authorID: " + authorID);
-	 * 
-	 * // Step 2: Delete the author String deleteAuthorSQL =
-	 * "DELETE FROM author WHERE authorID = ?"; PreparedStatement deleteAuthorStmt =
-	 * conn.prepareStatement(deleteAuthorSQL); deleteAuthorStmt.setInt(1, authorID);
-	 * nrow = deleteAuthorStmt.executeUpdate();
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); } finally { if (conn != null) {
-	 * conn.close(); } } return nrow; }
-	 */
+
 	public int deleteUser(int authorID) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		int nrow = 0;
@@ -187,24 +155,12 @@ public class AuthorDAO {
 				author.setDescription(rs.getString("authorDescription"));
 				author.setAuthorPwd(rs.getString("authorPassword"));
 
-	author.setAuthorID(rs.getInt("authorID"));	
-				author.setAuthorEmail(rs.getString("authorEmail"));	
-				author.setAuthorPhone(rs.getString("authorPhone"));
-				author.setDescription(rs.getString("authorDescription"));
-				author.setAuthorPwd(rs.getString("authorPassword"));
 				Blob image = rs.getBlob("profilePic");
 			byte[] imageBytes = image.getBytes(1, (int) image.length());
 			String imageData = Base64.getEncoder().encodeToString(imageBytes);
 			String imageURL = "data:image/jpeg;base64," + imageData;
 			
 			author.setAuthorProfile(imageURL);
-				
-
-				author.setAuthorPhone(rs.getString("authorPhone"));
-				author.setDescription(rs.getString("authorDescription"));
-				author.setAuthorPwd(rs.getString("authorPassword"));
-
-
 				conn.close();
 			}
 
@@ -255,6 +211,7 @@ public class AuthorDAO {
 			pstmt.setString(4, description);
 			pstmt.setInt(5, author_id);
 			nrow = pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
