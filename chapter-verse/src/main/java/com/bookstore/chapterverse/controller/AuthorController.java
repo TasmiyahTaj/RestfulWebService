@@ -40,7 +40,7 @@ public class AuthorController {
 		return rec;
 
 	}
-<<<<<<< HEAD
+
 	@RequestMapping(method=RequestMethod.GET, path="/getAllAuthor")
 	 public ArrayList<Author> getAllAuthor() {
 	        ArrayList<Author> myList = new ArrayList<>();
@@ -60,9 +60,11 @@ public class AuthorController {
 		Author author1=null;
 		try {
 			AuthorDAO db = new AuthorDAO();
-			String authorEmail=author.getAuthorEmail();		
-			String authorpwd=author.getAuthorPwd();		
-			author1=db.loginAuthor(authorEmail, authorpwd);
+			/*
+			 * String authorEmail=author.getAuthorEmail(); String
+			 * authorpwd=author.getAuthorPwd();
+			 */	
+			author1=db.loginAuthor(author.getAuthorEmail(), author.getAuthorPwd());
 			System.out.println("done loging user");
 		}catch(Exception e) {}
 		return author1;
@@ -71,8 +73,8 @@ public class AuthorController {
 	
 	
 	
-	@RequestMapping(method=RequestMethod.PUT, path="/modifyAuthor",consumes="application/json")
-	public int modify(@RequestBody Author author) {
+	@RequestMapping(method=RequestMethod.PUT, path="/modifyAuthor/{uid}",consumes="application/json")
+	public int modify(@RequestBody Author author, @PathVariable("uid")int uid) {
 		int rec=0;
 		try {
 			AuthorDAO db = new AuthorDAO();
@@ -84,7 +86,7 @@ public class AuthorController {
 			String authorPhone=author.getAuthorPhone();
 			String authorpwd=author.getAuthorPwd();
 			String authorProfile=author.getAuthorProfile();
-			rec=db.modifyAuthor(authorName, authorEmail, authorpwd, authorPhone, authorProfile,authorDesc);
+			rec=db.modifyAuthor(uid,authorName, authorEmail, authorpwd, authorPhone, authorProfile,authorDesc);
 			System.out.println("done modifying author");
 		}catch(Exception e) {}
 		return rec;
@@ -104,21 +106,19 @@ public class AuthorController {
 		}
 		return author;
 	}
-
-	@RequestMapping(method = RequestMethod.GET, path = "/getAllAuthor")
-	public ArrayList<Author> getAllAuthor() {
-		ArrayList<Author> myList = new ArrayList<>();
+	@RequestMapping(method=RequestMethod.DELETE,path="/deleteAuthor/{uid}")
+	
+	public int deleteAuthor(@PathVariable("uid")int uid) {
+		Author author = new Author();
+		int delete=0;
 		try {
 			AuthorDAO db = new AuthorDAO();
-			myList = db.listAllAuthor();
-		} catch (SQLException e) {
-			e.printStackTrace();
-
-			System.out.println("ERROR: " + e.getMessage());
+			 delete = db.deleteUser(uid);
 		}
-		return myList;
+		catch(Exception e) {
+			System.out.println("Error : "+e);
+		}
+		return delete;
 	}
 
-
->>>>>>> 81b3e917edb343743de0d1295a56d03af68679bb
 }
