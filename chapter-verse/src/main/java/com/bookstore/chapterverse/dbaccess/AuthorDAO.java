@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 public class AuthorDAO {
 	public ArrayList<Author> listAllAuthor() throws SQLException {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 		ArrayList<Author> authorList = new ArrayList<>();
 		Connection conn = null;
 		try {
@@ -41,7 +44,10 @@ public class AuthorDAO {
 			}
 		}
 		return authorList;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 	}
 
 	public int insertAuthor(String authorName, String authorEmail, String authorPwd, String authorPhone,
@@ -78,11 +84,65 @@ public class AuthorDAO {
 		return nrow;
 	}
 
+	/*
+	 * public int deleteUser(int authorID) throws SQLException,
+	 * ClassNotFoundException { Connection conn = null; int nrow = 0; try { conn =
+	 * DBConnection.getConnection();
+	 * 
+	 * String deleteFavouritesSQL =
+	 * "DELETE FROM Favourites WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)"
+	 * ; PreparedStatement deleteFavouritesStmt =
+	 * conn.prepareStatement(deleteFavouritesSQL); deleteFavouritesStmt.setInt(1,
+	 * authorID); int deletedFavourites = deleteFavouritesStmt.executeUpdate();
+	 * System.out.println("Deleted " + deletedFavourites +
+	 * " rows from Favourites for authorID: " + authorID);
+	 * 
+	 * // Step 2: Delete from Cart table String deleteCartSQL =
+	 * "DELETE FROM cart WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	 * PreparedStatement deleteCartStmt = conn.prepareStatement(deleteCartSQL);
+	 * deleteCartStmt.setInt(1, authorID); int deletedCart =
+	 * deleteCartStmt.executeUpdate(); System.out.println("Deleted " + deletedCart +
+	 * " rows from Cart for authorID: " + authorID);
+	 * 
+	 * 
+	 * String deleteBooksSQL = "DELETE FROM books WHERE authorID = ?";
+	 * PreparedStatement deleteBooksStmt = conn.prepareStatement(deleteBooksSQL);
+	 * deleteBooksStmt.setInt(1, authorID); int deletedBooks =
+	 * deleteBooksStmt.executeUpdate(); System.out.println("Deleted " + deletedBooks
+	 * + " books of authorID: " + authorID);
+	 * 
+	 * // Step 2: Delete the author String deleteAuthorSQL =
+	 * "DELETE FROM author WHERE authorID = ?"; PreparedStatement deleteAuthorStmt =
+	 * conn.prepareStatement(deleteAuthorSQL); deleteAuthorStmt.setInt(1, authorID);
+	 * nrow = deleteAuthorStmt.executeUpdate();
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } finally { if (conn != null) {
+	 * conn.close(); } } return nrow; }
+	 */
 	public int deleteUser(int authorID) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		int nrow = 0;
 		try {
+			System.out.print("in delete");
 			conn = DBConnection.getConnection();
+			String deleteFavouritesSQL = "DELETE FROM favourite WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	        PreparedStatement deleteFavouritesStmt = conn.prepareStatement(deleteFavouritesSQL);
+	        deleteFavouritesStmt.setInt(1, authorID);
+	        int deletedFavourites = deleteFavouritesStmt.executeUpdate();
+	        System.out.println("Deleted " + deletedFavourites + " rows from Favourites for authorID: " + authorID);
+
+	        // Step 2: Delete from Cart table
+	        String deleteCartSQL = "DELETE FROM cart WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	        PreparedStatement deleteCartStmt = conn.prepareStatement(deleteCartSQL);
+	        deleteCartStmt.setInt(1, authorID);
+	        int deletedCart = deleteCartStmt.executeUpdate();
+	        System.out.println("Deleted " + deletedCart + " rows from Cart for authorID: " + authorID);
+
+	        String deletePurchaseSQL = "DELETE FROM purchaseitems WHERE ISBN IN (SELECT ISBN FROM books WHERE authorID = ?)";
+	        PreparedStatement deletePurchaseStmt = conn.prepareStatement(deletePurchaseSQL);
+	        deletePurchaseStmt.setInt(1, authorID);
+	        int deletedPurchase = deletePurchaseStmt.executeUpdate();
+	        System.out.println("Deleted " + deletedPurchase + " rows from Purchase for authorID: " + authorID);
 
 			// Step 1: Delete the author's books
 			String deleteBooksSQL = "DELETE FROM books WHERE authorID = ?";
@@ -107,6 +167,10 @@ public class AuthorDAO {
 		return nrow;
 	}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 	public Author loginAuthor(String authorEmail, String authorPwd) throws SQLException, ClassNotFoundException {
 		Author author = null;
 		Connection conn = null;
@@ -122,11 +186,15 @@ public class AuthorDAO {
 				System.out.print("login success");
 				author = new Author();
 				author.setAuthorName(rs.getString("authorName"));
+<<<<<<< HEAD
 
+=======
+>>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 				author.setAuthorPwd(rs.getString("authorPassword"));
 				author.setDescription(rs.getString("authorDescription"));
 				author.setAuthorID(rs.getInt("authorID"));
 				author.setAuthorEmail(rs.getString("authorEmail"));
+<<<<<<< HEAD
 				author.setAuthorPhone(rs.getString("authorPhone"));
 				author.setDescription(rs.getString("authorDescription"));
 				author.setAuthorPwd(rs.getString("authorPassword"));
@@ -143,6 +211,11 @@ public class AuthorDAO {
 			
 			author.setAuthorProfile(imageURL);
 				
+=======
+				author.setAuthorPhone(rs.getString("authorPhone"));
+				author.setDescription(rs.getString("authorDescription"));
+				author.setAuthorPwd(rs.getString("authorPassword"));
+>>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 
 				conn.close();
 			}
@@ -158,6 +231,7 @@ public class AuthorDAO {
 		return author;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * public int modifyAuthor(int author_id,String authorName, String authorEmail,
 	 * String authorPwd, String authorPhone, String authorProfile, String
@@ -176,6 +250,9 @@ public class AuthorDAO {
 	 * finally { // Make sure to close the connection in the finally block if (conn
 	 * != null) { conn.close(); } } return nrow; }
 	 */
+=======
+	
+>>>>>>> 976a98b244b2583f5459fb415e0c26fb82a5700e
 	public int modifyAuthor(int author_id, String authorName, String authorEmail, String authorPhone,
 			String description) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
