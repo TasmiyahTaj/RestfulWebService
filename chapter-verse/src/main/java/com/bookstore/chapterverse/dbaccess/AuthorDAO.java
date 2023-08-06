@@ -4,14 +4,12 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 
-<<<<<<< HEAD
-=======
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
->>>>>>> 81b3e917edb343743de0d1295a56d03af68679bb
 public class AuthorDAO {
 	public ArrayList<Author> listAllAuthor() throws SQLException {
 	    ArrayList<Author> authorList = new ArrayList<>();
