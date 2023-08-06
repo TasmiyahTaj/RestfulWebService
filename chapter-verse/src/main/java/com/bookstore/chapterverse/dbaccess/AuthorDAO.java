@@ -1,11 +1,8 @@
 package com.bookstore.chapterverse.dbaccess;
-
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
-
-
 
 public class AuthorDAO {
 	public ArrayList<Author> listAllAuthor() throws SQLException {
@@ -98,6 +95,100 @@ public class AuthorDAO {
 			}
 		}
 		return nrow;
+	}
+	
+	public Author loginAuthor(String authorEmail, String authorPwd) throws SQLException, ClassNotFoundException {
+		Author author = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String sqlStr = "SELECT * FROM author where authorEmail = ? and authorPassword = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setString(1, authorEmail);
+			pstmt.setString(2, authorPwd);
+			ResultSet rs =pstmt.executeQuery();
+			if (rs.next()) {
+				System.out.print("login success");
+				author = new Author();
+				author.setAuthorName(rs.getString("authorName"));
+				author.setAuthorID(rs.getInt("authorID"));	
+				author.setAuthorEmail(authorEmail);	
+				author.setAuthorPhone(rs.getString("authorPhone"));	
+				conn.close();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+// Make sure to close the connection in the finally block
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return author;
+	}
+	
+	
+	public int modifyAuthor(String authorName, String authorEmail, String authorPwd, String authorPhone,
+			String authorProfile, String description) throws SQLException, ClassNotFoundException {
+		Connection conn = null;
+		int nrow = 0;
+		try {
+			conn = DBConnection.getConnection();
+			String sqlStr = "UPDATE Author SET authorName = ?, authorEmail = ?, authorPassword = ?, authorPhone = ?, profilePic = ?, authorDescription = ? WHERE authorID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setString(1, authorName);
+			pstmt.setString(2, authorEmail);
+			pstmt.setString(3, authorPwd);
+			pstmt.setString(4, authorPhone);
+			URL url = new URL(authorProfile);
+			InputStream inputStream = url.openStream();
+			byte[] profilePicBytes = inputStream.readAllBytes();
+			Blob profilePicBlob = conn.createBlob();
+			profilePicBlob.setBytes(1, profilePicBytes);
+			pstmt.setBlob(5, profilePicBlob);
+			pstmt.setString(6, description);
+			pstmt.setInt(7, 1);
+			nrow = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+// Make sure to close the connection in the finally block
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return nrow;
+	}
+	
+	
+public Author getAuthorDetails(String userid) throws SQLException{
+		
+		Author uBean = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String sqlStr = "SELECT * from author WHERE authorID =?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setString(1, userid);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				uBean = new Author();
+				uBean.setAuthorID(rs.getInt("authorID"));
+				uBean.setAuthorName(rs.getString("authorName"));
+				uBean.setAuthorEmail(rs.getString("authorEmail"));
+				System.out.print(".....done wring to bean!!.....");
+			}
+		}catch(Exception e) {
+			System.out.print(".............UserDetailsDB: "+e);
+		}
+		finally {
+			conn.close();
+		}
+		return uBean;
 	}
 
 }

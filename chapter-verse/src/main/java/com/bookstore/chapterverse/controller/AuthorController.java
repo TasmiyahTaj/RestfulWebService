@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.bookstore.chapterverse.dbaccess.*;
 
+
 @RestController
 public class AuthorController {
 	
@@ -51,4 +52,53 @@ public class AuthorController {
 	        return myList;
 	    }
 	
+	@RequestMapping(method=RequestMethod.POST, path="/AuthorLogin",consumes="application/json")
+	public Author LoginUser(@RequestBody Author author) {
+		Author author1=null;
+		try {
+			AuthorDAO db = new AuthorDAO();
+			String authorEmail=author.getAuthorEmail();		
+			String authorpwd=author.getAuthorPwd();		
+			author1=db.loginAuthor(authorEmail, authorpwd);
+			System.out.println("done loging user");
+		}catch(Exception e) {}
+		return author1;
+
+	}
+	
+	
+	
+	@RequestMapping(method=RequestMethod.PUT, path="/modifyAuthor",consumes="application/json")
+	public int modify(@RequestBody Author author) {
+		int rec=0;
+		try {
+			AuthorDAO db = new AuthorDAO();
+			int id= author.getAuthorID();
+			System.out.println("...Inside auth controller id "+id);
+			String authorName=author.getAuthorName();
+			String authorEmail=author.getAuthorEmail();
+			String authorDesc=author.getDescription();
+			String authorPhone=author.getAuthorPhone();
+			String authorpwd=author.getAuthorPwd();
+			String authorProfile=author.getAuthorProfile();
+			rec=db.modifyAuthor(authorName, authorEmail, authorpwd, authorPhone, authorProfile,authorDesc);
+			System.out.println("done modifying author");
+		}catch(Exception e) {}
+		return rec;
+
+	}
+	
+	@RequestMapping(method=RequestMethod.GET,path="/getAuthor/{uid}")
+	
+	public Author getAuthor(@PathVariable("uid")String uid) {
+		Author author = new Author();
+		try {
+			AuthorDAO db = new AuthorDAO();
+			author = db.getAuthorDetails(uid);
+		}
+		catch(Exception e) {
+			System.out.println("Error : "+e);
+		}
+		return author;
+	}
 }
