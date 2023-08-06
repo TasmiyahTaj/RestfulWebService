@@ -46,7 +46,8 @@ public class AuthorController {
 	        ArrayList<Author> myList = new ArrayList<>();
 	        try {
 	            AuthorDAO db = new AuthorDAO();
-	            myList = db.listAllAuthor();
+	            //myList = db.listAllAuthor();
+	            myList=db.listAllAuthor();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	       
