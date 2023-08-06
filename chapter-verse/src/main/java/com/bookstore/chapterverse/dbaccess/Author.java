@@ -28,7 +28,7 @@ public String getDescription() {
 	return Description;
 }
 public void setDescription(String description) {
-	Description = description;
+	this.Description = description;
 }
 public int getAuthorID() {
 	return authorID;

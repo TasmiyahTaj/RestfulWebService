@@ -3,6 +3,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -123,7 +124,10 @@ public class AuthorDAO {
 				author.setAuthorName(rs.getString("authorName"));
 				author.setAuthorID(rs.getInt("authorID"));	
 				author.setAuthorEmail(rs.getString("authorEmail"));	
-				author.setAuthorPhone(rs.getString("authorPhone"));	
+				author.setAuthorPhone(rs.getString("authorPhone"));
+				author.setDescription(rs.getString("authorDescription"));
+				author.setAuthorPwd(rs.getString("authorPassword"));
+				
 				conn.close();
 			}
 			
